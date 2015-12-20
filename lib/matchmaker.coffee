@@ -89,14 +89,6 @@ class Matchmaker
 
     pattern = [directoryPattern, filenamePattern].join(pathUtils.sep)
 
-    # TODO Could this be even faster in large projects if we ignore certain dirs?
-    # Example: [".bundle/**", ".git/**", "bin/**", "config/**", "db/**", "docs/**", "enterprise/**", "git-bin/**", "jobs/**", "log/**", "public/**", "repositories/**", "script/**", "tmp/**", "var/**", "vendor/**"]
-    #
-    # Maybe, instead of that crazy list above, we can tell the scandal to ignore every directory that isn't one of app,jobs,lib,src,spec,test. We could:
-    #    1. List all top-level directories.
-    #    2. Remove app, job, lib, src, spec, test from the list.
-    #    3. Add the remaining items to the exclusions option. (See https://github.com/atom/scandal/blob/v2.2.0/README.md#options.)
-
     promise = new Promise (resolve) =>
       matches = []
 
