@@ -1,0 +1,11 @@
+'menu': [
+  {
+    'label': 'Packages'
+    'submenu': [
+      'label': 'Significant Other'
+      'submenu': [
+        { 'label': 'Toggle', 'command': 'significant-other:toggle' }
+      ]
+    ]
+  }
+]

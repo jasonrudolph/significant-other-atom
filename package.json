@@ -1,0 +1,17 @@
+{
+  "name": "significant-other",
+  "main": "./lib/significant-other",
+  "version": "0.0.0",
+  "description": "TODO: A short description of your package",
+  "activationEvents": ["significant-other:toggle"],
+  "repository": "https://github.com/jasonrudolph/significant-other",
+  "license": "MIT",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {
+    "fs-plus": "2.x",
+    "scandal": "2.2.x",
+    "underscore-plus": "1.x"
+  }
+}
