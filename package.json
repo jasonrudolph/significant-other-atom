@@ -3,6 +3,12 @@
   "main": "./lib/significant-other",
   "version": "0.0.0",
   "description": "Quickly switch between a source file and its corresponding test file",
+  "keywords": [
+    "spec",
+    "tdd",
+    "test",
+    "testing"
+  ],
   "activationCommands": {
     "atom-text-editor": [
       "significant-other:toggle"
