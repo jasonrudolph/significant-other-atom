@@ -161,7 +161,6 @@ class Matchmaker
   basenamePattern: (path) ->
     basename = pathUtils.basename(path, pathUtils.extname(path))
 
-    # TODO Consider exposing the list of suffixes as a configuration option
     # TODO Refactor and/or use better names or comments
 
     # If this file already ends with `_test` or `_spec` or `-spec`, then remove
