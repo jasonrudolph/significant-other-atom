@@ -2,7 +2,7 @@
   "name": "significant-other",
   "main": "./lib/significant-other",
   "version": "0.0.0",
-  "description": "TODO: A short description of your package",
+  "description": "Quickly switch between a source file and its corresponding test file",
   "activationCommands": {
     "atom-text-editor": [
       "significant-other:toggle"

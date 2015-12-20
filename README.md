@@ -17,7 +17,6 @@ Or search for `significant-other` in the Atom Settings UI.
 ## TODO
 
 - [ ] Populate README.md
-- [ ] Populate description in package.json
 - [ ] Document recommended keymap
 - [ ] Populate CHANGELOG.md
 - [ ] Release 0.1.0
