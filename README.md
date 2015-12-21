@@ -41,7 +41,6 @@ You may want to use a keyboard shortcut for switching between source files and t
 
 ## TODO
 
-- [ ] Release 0.1.0
 - [ ] Cache the last _n_ matches for faster toggling
 - [ ] Support projects that have multiple root directories [[code]](https://github.com/jasonrudolph/significant-other/blob/73cdeca7ced2f8ae7140fa492a88455dc665c783/lib/matchmaker.coffee#L103)
 - [ ] Consider providing option to open the current file's significant other in a split pane
