@@ -2,7 +2,7 @@
 
 TODO: Add short description of the package
 
-TODO: Add demo gif
+![demo](https://cloud.githubusercontent.com/assets/2988/11921768/6825b086-a75c-11e5-87c3-5bbe899dce75.gif)
 
 ## Installation
 
