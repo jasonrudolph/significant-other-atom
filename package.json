@@ -11,7 +11,8 @@
   ],
   "activationCommands": {
     "atom-text-editor": [
-      "significant-other:toggle"
+      "significant-other:toggle",
+      "significant-other:clear-cache"
     ]
   },
   "repository": "https://github.com/jasonrudolph/significant-other",
