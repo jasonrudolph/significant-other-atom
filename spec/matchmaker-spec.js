@@ -5,8 +5,8 @@ import fs from 'fs-plus'
 import path from 'path'
 import os from 'os'
 
-// TODO Consider ditching the test names. Does Jasmine have an equivalent to just
-// `example` in RSpec?
+// TODO Consider ditching the test names. Does Jasmine have an equivalent to
+// just `example` in RSpec?
 
 // TODO Consider drying up tests: We could define a custom jasmine expectation.
 // Something like:
