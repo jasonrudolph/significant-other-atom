@@ -4,7 +4,8 @@
     'submenu': [
       'label': 'Significant Other'
       'submenu': [
-        { 'label': 'Toggle', 'command': 'significant-other:toggle' }
+        { 'label': 'Toggle', 'command': 'significant-other:toggle' },
+        { 'label': 'Clear Cache', 'command': 'significant-other:clear-cache' }
       ]
     ]
   }
