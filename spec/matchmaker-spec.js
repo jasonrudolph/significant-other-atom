@@ -100,6 +100,43 @@ describe("finding the complementary path for a file", () => {
     )
   })
 
+  // See https://github.com/BinaryMuse/atom-mocha-test-runner/blob/v1.0.1/lib/create-runner.js#L9
+  describe("in a project using atom-mocha-test-runner's default test suffixes", () => {
+    beforeEach(() => {
+      // A representative sample of files from the atom/github package
+      // (https://github.com/atom/github/tree/v0.3.4/lib)
+      let filePaths = [
+        'README.md',
+        'lib/git-prompt-server.js',
+        'lib/models/hunk.js',
+        'lib/views/hunk-view.js',
+        'package.json',
+        'styles/hunk-view.less',
+        'test/git-prompt-server.test.js',
+        'test/views/hunk-view.test.js',
+      ]
+      setupProject(projectPath, filePaths)
+    })
+
+    it("finds spec for implementation file", () =>
+      waitsForPromise(() =>
+        Matchmaker.for('lib/views/hunk-view.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath, 'test/views/hunk-view.test.js'))
+        )
+      )
+    )
+
+    it("finds implementation file for spec", () =>
+      waitsForPromise(() =>
+        Matchmaker.for('test/views/hunk-view.test.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath, 'lib/views/hunk-view.js'))
+        )
+      )
+    )
+  })
+
   describe("in a typical Ruby gem", () => {
     beforeEach(() => {
       // A representative sample of files from the Octokit gem
