@@ -11,10 +11,11 @@ Significant Other is intended to work automatically with popular project structu
 Significant Other assumes that:
 
 - You want to toggle between a source file and *the* corresponding test file, or vice versa.
-- The source file and the test file *start* with the same name. The test file *may* include a suffix of `_test`, `_spec`, or `-spec`. For example, you can toggle between:
+- The source file and the test file *start* with the same name. The test file *may* include a suffix of `_test`, `.test`, `_spec`, or `-spec`. For example, you can toggle between:
     - `lib/profile.coffee` and `spec/profile.coffee`
     - `app/models/profile.rb` and `test/models/profile_test.rb`
     - `src/profile.js` and `src/profile_spec.js`
+    - `lib/profile.js` and `test/profile.test.js`
     - `profile.js` and `profile-spec.js`
 - The source file and the test file have the same file extension. (I may consider removing this assumption at some point.)
 
