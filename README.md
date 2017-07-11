@@ -47,7 +47,6 @@ You may want to use a keyboard shortcut for switching between source files and t
 - [ ] Consider providing option to open the current file's significant other in a split pane
 - [ ] Consider exposing the [list of test/spec suffixes](https://github.com/jasonrudolph/significant-other/blob/e6abd32868203726dcc43b3542b73804e1b2515e/lib/matchmaker.coffee#L169) as a [configuration option](https://atom.io/docs/v1.3.2/behind-atom-configuration-api)
 - [ ] Consider [excluding some directories from the search for better performance](https://github.com/jasonrudolph/significant-other/blob/9f64d09a0012ff39737251f1e76e34c4ccb26fdb/lib/matchmaker.coffee#L92-L98)
-- [ ] Set up CI
 
 [atom-keymaps]: https://atom.io/docs/v1.3.2/using-atom-basic-customization#customizing-key-bindings
 [open-an-issue]: https://github.com/jasonrudolph/significant-other/issues/new
