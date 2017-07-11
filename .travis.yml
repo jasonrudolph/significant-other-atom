@@ -4,4 +4,6 @@ language: node_js
 
 node_js: "7"
 
+install: true # no-op; let the build script handle the installation
+
 script: 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
