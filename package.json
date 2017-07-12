@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "fs-plus": "2.x",
-    "scandal": "2.2.x",
+    "scandal": "2.3.0",
     "underscore-plus": "1.x"
   }
 }
