@@ -14,8 +14,6 @@ import os from 'os'
 // Something like:
 //   expect('foo/bar.rb').toHaveComplementaryPath('specs/foo/bar_spec.rb')
 describe('finding the complementary path for a file', () => {
-  let [activationPromise, editor] = []
-
   let projectPath = path.join(os.tmpdir(), 'significant-other-test-fixture')
 
   let setupProject = (rootPath, filePaths) => {
@@ -56,8 +54,7 @@ describe('finding the complementary path for a file', () => {
     waitsForPromise(() => atom.workspace.open())
 
     runs(() => {
-      editor = atom.workspace.getActiveTextEditor()
-      activationPromise = atom.packages.activatePackage('significant-other')
+      atom.packages.activatePackage('significant-other')
     })
   })
 
