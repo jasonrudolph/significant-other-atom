@@ -1,3 +1,5 @@
+/* global afterEach, beforeEach, describe, expect, it, runs, waitsFor, waitsForPromise */
+
 'use babel'
 
 import Matchmaker from '../lib/matchmaker'
