@@ -1,11 +1,9 @@
 /* global afterEach, beforeEach, describe, expect, it, runs, waitsFor, waitsForPromise */
 
-'use babel'
-
-import Matchmaker from '../lib/matchmaker'
-import fs from 'fs-plus'
-import path from 'path'
-import os from 'os'
+const Matchmaker = require('../lib/matchmaker')
+const fs = require('fs-plus')
+const path = require('path')
+const os = require('os')
 
 // TODO Consider ditching the test names. Does Jasmine have an equivalent to
 // just `example` in RSpec?
