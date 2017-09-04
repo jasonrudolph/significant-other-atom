@@ -32,5 +32,8 @@
     "globals": [
       "atom"
     ]
+  },
+  "scripts": {
+    "lint": "standard --verbose"
   }
 }
