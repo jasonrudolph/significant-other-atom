@@ -1,4 +1,5 @@
-/* global afterEach, beforeEach, describe, expect, it, runs, waitsFor, waitsForPromise */
+/* eslint-env jasmine */
+/* global waitsForPromise */
 
 const Matchmaker = require('../lib/matchmaker')
 const fs = require('fs-plus')
