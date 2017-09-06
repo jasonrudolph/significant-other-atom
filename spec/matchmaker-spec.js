@@ -1,9 +1,10 @@
-'use babel'
+/* eslint-env jasmine */
+/* global waitsForPromise */
 
-import Matchmaker from '../lib/matchmaker'
-import fs from 'fs-plus'
-import path from 'path'
-import os from 'os'
+const Matchmaker = require('../lib/matchmaker')
+const fs = require('fs-plus')
+const path = require('path')
+const os = require('os')
 
 // TODO Consider ditching the test names. Does Jasmine have an equivalent to
 // just `example` in RSpec?
@@ -11,9 +12,7 @@ import os from 'os'
 // TODO Consider drying up tests: We could define a custom jasmine expectation.
 // Something like:
 //   expect('foo/bar.rb').toHaveComplementaryPath('specs/foo/bar_spec.rb')
-describe("finding the complementary path for a file", () => {
-  let [activationPromise, editor] = []
-
+describe('finding the complementary path for a file', () => {
   let projectPath = path.join(os.tmpdir(), 'significant-other-test-fixture')
 
   let setupProject = (rootPath, filePaths) => {
@@ -54,14 +53,13 @@ describe("finding the complementary path for a file", () => {
     waitsForPromise(() => atom.workspace.open())
 
     runs(() => {
-      editor = atom.workspace.getActiveTextEditor()
-      activationPromise = atom.packages.activatePackage('significant-other')
+      atom.packages.activatePackage('significant-other')
     })
   })
 
   afterEach(() => teardownProject(projectPath))
 
-  describe("in a typical Atom package", () => {
+  describe('in a typical Atom package', () => {
     beforeEach(() => {
       // A representative sample of files from the release-notes package
       // (https://github.com/atom/release-notes/tree/v0.51.0)
@@ -76,12 +74,12 @@ describe("finding the complementary path for a file", () => {
         'spec/fixtures/releases-response.json',
         'spec/release-notes-status-bar-spec.coffee',
         'spec/release-notes-view-spec.coffee',
-        'styles/release-notes.less',
+        'styles/release-notes.less'
       ]
       setupProject(projectPath, filePaths)
     })
 
-    it("finds spec for implementation file", () =>
+    it('finds spec for implementation file', () =>
       waitsForPromise(() =>
         Matchmaker.for('lib/release-notes-view.coffee').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -90,7 +88,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds implementation file for spec", () =>
+    it('finds implementation file for spec', () =>
       waitsForPromise(() =>
         Matchmaker.for('spec/release-notes-view-spec.coffee').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -113,12 +111,12 @@ describe("finding the complementary path for a file", () => {
         'package.json',
         'styles/hunk-view.less',
         'test/git-prompt-server.test.js',
-        'test/views/hunk-view.test.js',
+        'test/views/hunk-view.test.js'
       ]
       setupProject(projectPath, filePaths)
     })
 
-    it("finds spec for implementation file", () =>
+    it('finds spec for implementation file', () =>
       waitsForPromise(() =>
         Matchmaker.for('lib/views/hunk-view.js').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -127,7 +125,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds implementation file for spec", () =>
+    it('finds implementation file for spec', () =>
       waitsForPromise(() =>
         Matchmaker.for('test/views/hunk-view.test.js').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -137,7 +135,7 @@ describe("finding the complementary path for a file", () => {
     )
   })
 
-  describe("in a typical Ruby gem", () => {
+  describe('in a typical Ruby gem', () => {
     beforeEach(() => {
       // A representative sample of files from the Octokit gem
       // (https://github.com/octokit/octokit.rb/tree/v3.5.2)
@@ -153,12 +151,12 @@ describe("finding the complementary path for a file", () => {
         'spec/client/authorizations_spec.rb',
         'spec/client/pull_requests_spec.rb',
         'spec/client_spec.rb',
-        'spec/octokit_spec.rb',
+        'spec/octokit_spec.rb'
       ]
       setupProject(projectPath, filePaths)
     })
 
-    it("finds test for implementation file", () =>
+    it('finds test for implementation file', () =>
       waitsForPromise(() =>
         Matchmaker.for('lib/octokit.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -167,7 +165,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds implementation file for test", () =>
+    it('finds implementation file for test', () =>
       waitsForPromise(() =>
         Matchmaker.for('spec/octokit_spec.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -176,7 +174,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds test for nested implementation file", () =>
+    it('finds test for nested implementation file', () =>
       waitsForPromise(() =>
         Matchmaker.for('lib/octokit/client/pull_requests.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -185,7 +183,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds nested implementation file for test", () =>
+    it('finds nested implementation file for test', () =>
       waitsForPromise(() =>
         Matchmaker.for('spec/client/pull_requests_spec.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -195,7 +193,7 @@ describe("finding the complementary path for a file", () => {
     )
   })
 
-  describe("in a typical Rails app", () => {
+  describe('in a typical Rails app', () => {
     beforeEach(() => {
       let filePaths = [
         'README.md',
@@ -212,12 +210,12 @@ describe("finding the complementary path for a file", () => {
         'test/helpers/comments_helper_test.rb',
         'test/helpers/posts_helper_test.rb',
         'test/models/comment_test.rb',
-        'test/models/post_test.rb',
+        'test/models/post_test.rb'
       ]
       setupProject(projectPath, filePaths)
     })
 
-    it("finds controller test for controller implementation", () =>
+    it('finds controller test for controller implementation', () =>
       waitsForPromise(() =>
         Matchmaker.for('app/controllers/posts_controller.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -226,7 +224,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds controller implementation for controller test", () =>
+    it('finds controller implementation for controller test', () =>
       waitsForPromise(() =>
         Matchmaker.for('test/controllers/posts_controller_test.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -235,7 +233,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds model test for model implementation", () =>
+    it('finds model test for model implementation', () =>
       waitsForPromise(() =>
         Matchmaker.for('app/models/post.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -244,7 +242,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds model implementation for model test", () =>
+    it('finds model implementation for model test', () =>
       waitsForPromise(() =>
         Matchmaker.for('test/models/post_test.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -254,19 +252,19 @@ describe("finding the complementary path for a file", () => {
     )
   })
 
-  describe("in the codebase that powers github.com", () => {
+  describe('in the codebase that powers github.com', () => {
     beforeEach(() => {
       let filePaths = [
         'README.md',
         'app/api/gists.rb',
         'app/api/git_commits.rb',
         'test/integration/api/gists_test.rb.rb',
-        'test/integration/api/git_commits_test.rb',
+        'test/integration/api/git_commits_test.rb'
       ]
       setupProject(projectPath, filePaths)
     })
 
-    it("finds API test for API implementation", () =>
+    it('finds API test for API implementation', () =>
       waitsForPromise(() =>
         Matchmaker.for('app/api/git_commits.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -275,7 +273,7 @@ describe("finding the complementary path for a file", () => {
       )
     )
 
-    it("finds API implementation for API test", () =>
+    it('finds API implementation for API test', () =>
       waitsForPromise(() =>
         Matchmaker.for('test/integration/api/git_commits_test.rb').complementaryPath().then(complementaryPath =>
           expect(complementaryPath)
@@ -285,15 +283,15 @@ describe("finding the complementary path for a file", () => {
     )
   })
 
-  describe("when no complementary path exists", () => {
+  describe('when no complementary path exists', () => {
     beforeEach(() => {
       let filePaths = [
-        'lib/main.coffee',
+        'lib/main.coffee'
       ]
       setupProject(projectPath, filePaths)
     })
 
-    it("resolves to null", () =>
+    it('resolves to null', () =>
       waitsForPromise(() =>
         Matchmaker.for('lib/main.coffee').complementaryPath().then(complementaryPath =>
           expect(complementaryPath).toBeNull()
