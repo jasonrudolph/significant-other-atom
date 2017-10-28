@@ -312,6 +312,69 @@ describe('finding the complementary path for a file', () => {
     )
   })
 
+  describe('in project with multiple root directories', () => {
+    let projectPath1, projectPath2
+
+    beforeEach(() => {
+      projectPath1 = createTmpDir()
+      const project1FilePaths = [
+        'lib/foo.js',
+        'test/foo.test.js'
+      ]
+      setupDirectoryContents(projectPath1, project1FilePaths)
+
+      projectPath2 = createTmpDir()
+      const project2FilePaths = [
+        'lib/bar.js',
+        'lib/baz.js',
+        'lib/quux.js',
+        'test/bar.test.js',
+        'test/baz.test.js',
+        'test/quux.test.js'
+      ]
+      setupDirectoryContents(projectPath2, project2FilePaths)
+
+      atom.project.setPaths([projectPath1, projectPath2])
+    })
+
+    afterEach(() => {
+      teardownProject(projectPath1)
+      teardownProject(projectPath2)
+    })
+
+    it('finds spec for implementation file', () => {
+      waitsForPromise(() =>
+        Matchmaker.for('lib/foo.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath1, 'test/foo.test.js'))
+        )
+      )
+
+      waitsForPromise(() =>
+        Matchmaker.for('lib/baz.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath2, 'test/baz.test.js'))
+        )
+      )
+    })
+
+    it('finds implementation file for spec', () => {
+      waitsForPromise(() =>
+        Matchmaker.for('test/foo.test.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath1, 'lib/foo.js'))
+        )
+      )
+
+      waitsForPromise(() =>
+        Matchmaker.for('test/baz.test.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath2, 'lib/baz.js'))
+        )
+      )
+    })
+  })
+
   describe('when no complementary path exists', () => {
     let projectPath
 
