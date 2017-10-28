@@ -15,7 +15,7 @@ const os = require('os')
 describe('finding the complementary path for a file', () => {
   let projectPath = path.join(os.tmpdir(), 'significant-other-test-fixture')
 
-  let setupProject = (rootPath, filePaths) => {
+  function setupProject (rootPath, filePaths) {
     for (let i = 0; i < filePaths.length; i++) {
       let filePath = filePaths[i]
       filePath = path.join(rootPath, filePath)
@@ -25,7 +25,7 @@ describe('finding the complementary path for a file', () => {
     atom.project.setPaths([rootPath])
   }
 
-  let teardownProject = (path) => {
+  function teardownProject (path) {
     let success = null
 
     // On Windows, you can not remove a watched directory/file, therefore we
