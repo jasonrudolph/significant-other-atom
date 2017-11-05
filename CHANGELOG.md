@@ -1,3 +1,7 @@
+## 0.4.0 - Call It What You Want
+
+* Added support for projects with multiple root directories. With this change in place, you can now add multiple top-level folders to the tree view (e.g., via the "Application: Add Project Folder" command), and Significant Other will successfully switch between a source code file and its corresponding test file (and vice versa), regardless of where those files reside in the project. 
+
 ## 0.3.0 - Homemade Dynamite
 
 * Added support for projects that use `.test.<extension>` as the naming convention for test files. For example, given a source code file named `project.js`, the corresponding test file would be named `project.test.js`. By default, projects using [atom-mocha-test-runner](https://github.com/BinaryMuse/atom-mocha-test-runner) use this convention. (e.g., the [atom/github](https://github.com/atom/github/tree/v0.3.4) package).
