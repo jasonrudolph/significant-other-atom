@@ -1,7 +1,7 @@
 {
   "name": "significant-other",
   "main": "./lib/significant-other",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Quickly switch between a source file and its corresponding test file",
   "keywords": [
     "spec",
