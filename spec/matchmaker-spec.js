@@ -13,16 +13,12 @@ const os = require('os')
 // Something like:
 //   expect('foo/bar.rb').toHaveComplementaryPath('specs/foo/bar_spec.rb')
 describe('finding the complementary path for a file', () => {
-  let projectPath = path.join(os.tmpdir(), 'significant-other-test-fixture')
-
-  function setupProject (rootPath, filePaths) {
+  function setupDirectoryContents (rootPath, filePaths) {
     for (let i = 0; i < filePaths.length; i++) {
       let filePath = filePaths[i]
       filePath = path.join(rootPath, filePath)
       fs.writeFileSync(filePath)
     }
-
-    atom.project.setPaths([rootPath])
   }
 
   function teardownProject (path) {
@@ -57,10 +53,12 @@ describe('finding the complementary path for a file', () => {
     })
   })
 
-  afterEach(() => teardownProject(projectPath))
-
   describe('in a typical Atom package', () => {
+    let projectPath
+
     beforeEach(() => {
+      projectPath = createTmpDir()
+
       // A representative sample of files from the release-notes package
       // (https://github.com/atom/release-notes/tree/v0.51.0)
       let filePaths = [
@@ -76,8 +74,11 @@ describe('finding the complementary path for a file', () => {
         'spec/release-notes-view-spec.coffee',
         'styles/release-notes.less'
       ]
-      setupProject(projectPath, filePaths)
+      setupDirectoryContents(projectPath, filePaths)
+      atom.project.setPaths([projectPath])
     })
+
+    afterEach(() => teardownProject(projectPath))
 
     it('finds spec for implementation file', () =>
       waitsForPromise(() =>
@@ -100,7 +101,11 @@ describe('finding the complementary path for a file', () => {
 
   // See https://github.com/BinaryMuse/atom-mocha-test-runner/blob/v1.0.1/lib/create-runner.js#L9
   describe("in a project using atom-mocha-test-runner's default test suffixes", () => {
+    let projectPath
+
     beforeEach(() => {
+      projectPath = createTmpDir()
+
       // A representative sample of files from the atom/github package
       // (https://github.com/atom/github/tree/v0.3.4/lib)
       let filePaths = [
@@ -113,8 +118,11 @@ describe('finding the complementary path for a file', () => {
         'test/git-prompt-server.test.js',
         'test/views/hunk-view.test.js'
       ]
-      setupProject(projectPath, filePaths)
+      setupDirectoryContents(projectPath, filePaths)
+      atom.project.setPaths([projectPath])
     })
+
+    afterEach(() => teardownProject(projectPath))
 
     it('finds spec for implementation file', () =>
       waitsForPromise(() =>
@@ -136,7 +144,11 @@ describe('finding the complementary path for a file', () => {
   })
 
   describe('in a typical Ruby gem', () => {
+    let projectPath
+
     beforeEach(() => {
+      projectPath = createTmpDir()
+
       // A representative sample of files from the Octokit gem
       // (https://github.com/octokit/octokit.rb/tree/v3.5.2)
       let filePaths = [
@@ -153,8 +165,11 @@ describe('finding the complementary path for a file', () => {
         'spec/client_spec.rb',
         'spec/octokit_spec.rb'
       ]
-      setupProject(projectPath, filePaths)
+      setupDirectoryContents(projectPath, filePaths)
+      atom.project.setPaths([projectPath])
     })
+
+    afterEach(() => teardownProject(projectPath))
 
     it('finds test for implementation file', () =>
       waitsForPromise(() =>
@@ -194,7 +209,11 @@ describe('finding the complementary path for a file', () => {
   })
 
   describe('in a typical Rails app', () => {
+    let projectPath
+
     beforeEach(() => {
+      projectPath = createTmpDir()
+
       let filePaths = [
         'README.md',
         'app/controllers/application_controller.rb',
@@ -212,8 +231,11 @@ describe('finding the complementary path for a file', () => {
         'test/models/comment_test.rb',
         'test/models/post_test.rb'
       ]
-      setupProject(projectPath, filePaths)
+      setupDirectoryContents(projectPath, filePaths)
+      atom.project.setPaths([projectPath])
     })
+
+    afterEach(() => teardownProject(projectPath))
 
     it('finds controller test for controller implementation', () =>
       waitsForPromise(() =>
@@ -253,7 +275,11 @@ describe('finding the complementary path for a file', () => {
   })
 
   describe('in the codebase that powers github.com', () => {
+    let projectPath
+
     beforeEach(() => {
+      projectPath = createTmpDir()
+
       let filePaths = [
         'README.md',
         'app/api/gists.rb',
@@ -261,8 +287,11 @@ describe('finding the complementary path for a file', () => {
         'test/integration/api/gists_test.rb.rb',
         'test/integration/api/git_commits_test.rb'
       ]
-      setupProject(projectPath, filePaths)
+      setupDirectoryContents(projectPath, filePaths)
+      atom.project.setPaths([projectPath])
     })
+
+    afterEach(() => teardownProject(projectPath))
 
     it('finds API test for API implementation', () =>
       waitsForPromise(() =>
@@ -283,13 +312,83 @@ describe('finding the complementary path for a file', () => {
     )
   })
 
-  describe('when no complementary path exists', () => {
+  describe('in project with multiple root directories', () => {
+    let projectPath1, projectPath2
+
     beforeEach(() => {
+      projectPath1 = createTmpDir()
+      const project1FilePaths = [
+        'lib/foo.js',
+        'test/foo.test.js'
+      ]
+      setupDirectoryContents(projectPath1, project1FilePaths)
+
+      projectPath2 = createTmpDir()
+      const project2FilePaths = [
+        'lib/bar.js',
+        'lib/baz.js',
+        'lib/quux.js',
+        'test/bar.test.js',
+        'test/baz.test.js',
+        'test/quux.test.js'
+      ]
+      setupDirectoryContents(projectPath2, project2FilePaths)
+
+      atom.project.setPaths([projectPath1, projectPath2])
+    })
+
+    afterEach(() => {
+      teardownProject(projectPath1)
+      teardownProject(projectPath2)
+    })
+
+    it('finds spec for implementation file', () => {
+      waitsForPromise(() =>
+        Matchmaker.for('lib/foo.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath1, 'test/foo.test.js'))
+        )
+      )
+
+      waitsForPromise(() =>
+        Matchmaker.for('lib/baz.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath2, 'test/baz.test.js'))
+        )
+      )
+    })
+
+    it('finds implementation file for spec', () => {
+      waitsForPromise(() =>
+        Matchmaker.for('test/foo.test.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath1, 'lib/foo.js'))
+        )
+      )
+
+      waitsForPromise(() =>
+        Matchmaker.for('test/baz.test.js').complementaryPath().then(complementaryPath =>
+          expect(complementaryPath)
+          .toBe(path.join(projectPath2, 'lib/baz.js'))
+        )
+      )
+    })
+  })
+
+  describe('when no complementary path exists', () => {
+    let projectPath
+
+    beforeEach(() => {
+      projectPath = createTmpDir()
+
       let filePaths = [
         'lib/main.coffee'
       ]
-      setupProject(projectPath, filePaths)
+      setupDirectoryContents(projectPath, filePaths)
+      atom.project.setPaths([projectPath])
     })
+
+    afterEach(() => teardownProject(projectPath))
 
     it('resolves to null', () =>
       waitsForPromise(() =>
@@ -300,3 +399,7 @@ describe('finding the complementary path for a file', () => {
     )
   })
 })
+
+function createTmpDir () {
+  return fs.mkdtempSync(path.join(os.tmpdir(), 'significant-other-test-fixture-'))
+}
