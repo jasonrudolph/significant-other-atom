@@ -4,4 +4,11 @@ language: node_js
 
 install: true # no-op; let the build script handle the installation
 
-script: 'curl -s https://raw.githubusercontent.com/atom/ci/master/build-package.sh | sh'
+env:
+  matrix:
+  - ATOM_CHANNEL=stable
+  - ATOM_CHANNEL=beta
+  - ATOM_CHANNEL=dev
+
+# TODO: Once https://github.com/atom/ci/pull/80 is merged, update URL below to use build-package.sh on master branch
+script: 'curl -s https://raw.githubusercontent.com/atom/ci/40844fc1d58f03e4f5e52968e7d39dc81b6a86f0/build-package.sh | sh'
